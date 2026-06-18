@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const connectDB = require("./src/config/db");
+const createUser = require("./src/test");
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.get("/", (req, res) => {
 });
 
 connectDB();
-
+createUser();
 app.listen(3000, () => {
     console.log("Server running on port 3000");
 });
