@@ -4,11 +4,14 @@ const express = require("express");
 const connectDB = require("./src/config/db");
 const createUser = require("./src/test");
 const authRoutes = require("./src/routes/auth.routes");
+const projectRoutes =
+require("./src/routes/project.routes");
 
 const app = express();
 
 app.use(express.json());
 app.use("/api/auth", authRoutes);
+app.use("/api/projects", projectRoutes);
 app.get("/", (req, res) => {
     res.send("Freelancing API Running");
 });
