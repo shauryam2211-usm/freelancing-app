@@ -5,6 +5,7 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 
 const {
+    isClient,
     isFreelancer
 } = require("../middleware/role");
 
@@ -15,7 +16,9 @@ const {
 } = require("../schemas/bid.schema");
 
 const {
-    placeBid
+    placeBid,
+    getMyBids,
+    acceptBid
 } = require("../controllers/bid.controller");
 
 router.post(
@@ -24,6 +27,20 @@ router.post(
     isFreelancer,
     validate(bidSchema),
     placeBid
+);
+
+router.get(
+    "/bids/mine",
+    auth,
+    isFreelancer,
+    getMyBids
+);
+
+router.put(
+    "/bids/:bidId/accept",
+    auth,
+    isClient,
+    acceptBid
 );
 
 module.exports = router;

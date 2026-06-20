@@ -5,6 +5,8 @@ const connectDB = require("./src/config/db");
 
 const authRoutes = require("./src/routes/auth.routes");
 const projectRoutes = require("./src/routes/project.routes");
+const contractRoutes =
+require("./src/routes/contract.routes");
 const bidRoutes =
 require("./src/routes/bid.routes");
 const app = express();
@@ -14,7 +16,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/bids", bidRoutes);
 app.use("/api/projects", projectRoutes);
-
+app.use("/api", contractRoutes);
 app.get("/", (req, res) => {
     res.send("Freelancing API Running");
 });
