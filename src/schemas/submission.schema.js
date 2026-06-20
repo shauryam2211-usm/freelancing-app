@@ -1,9 +1,9 @@
 const { z } = require("zod");
 
 const submissionSchema = z.object({
-    message: z.string().min(10),
+    description: z.string().min(10),
 
-    githubLink: z.string().url()
+    attachmentUrl: z.string().url()
 });
 
 module.exports = {

@@ -4,6 +4,7 @@ const Contract = require("../models/contract");
 
 const placeBid = async (req, res) => {
     try {
+         console.log("placeBid hit");
 
         const {
             proposedAmount,

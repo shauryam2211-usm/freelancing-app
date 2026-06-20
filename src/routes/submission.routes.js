@@ -5,6 +5,7 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 
 const {
+    isClient,
     isFreelancer
 } = require("../middleware/role");
 
@@ -15,7 +16,8 @@ const {
 } = require("../schemas/submission.schema");
 
 const {
-    submitWork
+    submitWork,
+    approveSubmission
 } = require("../controllers/submission.controller");
 
 router.post(
@@ -24,6 +26,13 @@ router.post(
     isFreelancer,
     validate(submissionSchema),
     submitWork
+);
+
+router.put(
+    "/submissions/:submissionId/approve",
+    auth,
+    isClient,
+    approveSubmission
 );
 
 module.exports = router;

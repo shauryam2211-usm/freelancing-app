@@ -42,5 +42,11 @@ router.put(
     isClient,
     acceptBid
 );
+router.get("/test-bid", (req, res) => {
+    res.json({
+        message: "Bid route working"
+    });
+});
+console.log("Bid routes loaded");
 
 module.exports = router;
