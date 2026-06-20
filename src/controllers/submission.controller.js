@@ -54,15 +54,32 @@ const approveSubmission = async (req, res) => {
             });
         }
 
-        submission.status =
-        "approved";
-
-        await submission.save();
-
         const contract =
         await Contract.findById(
             submission.contractId
         );
+
+        if (!contract) {
+            return res.status(404).json({
+                message:
+                "Contract not found"
+            });
+        }
+
+        if (
+            contract.clientId.toString() !==
+            req.user.userId
+        ) {
+            return res.status(403).json({
+                message:
+                "Unauthorized"
+            });
+        }
+
+        submission.status =
+        "approved";
+
+        await submission.save();
 
         contract.status =
         "completed";

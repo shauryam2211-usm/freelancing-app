@@ -1,10 +1,9 @@
-    const Bid = require("../models/bid");
+const Bid = require("../models/bid");
 const Project = require("../models/project");
 const Contract = require("../models/contract");
 
 const placeBid = async (req, res) => {
     try {
-         console.log("placeBid hit");
 
         const {
             proposedAmount,
@@ -55,8 +54,7 @@ const getMyBids = async (req, res) => {
 const acceptBid = async (req, res) => {
     try {
 
-        const bid =
-        await Bid.findById(
+        const bid = await Bid.findById(
             req.params.bidId
         );
 
@@ -66,13 +64,26 @@ const acceptBid = async (req, res) => {
             });
         }
 
-        const project =
-        await Project.findById(
+        const project = await Project.findById(
             bid.projectId
         );
 
-        const contract =
-        await Contract.create({
+        if (!project) {
+            return res.status(404).json({
+                message: "Project not found"
+            });
+        }
+
+        if (
+            project.clientId.toString() !==
+            req.user.userId
+        ) {
+            return res.status(403).json({
+                message: "Unauthorized"
+            });
+        }
+
+        const contract = await Contract.create({
             projectId: project._id,
             clientId: project.clientId,
             freelancerId: bid.freelancerId,
@@ -85,8 +96,7 @@ const acceptBid = async (req, res) => {
         await bid.save();
 
         res.status(200).json({
-            message:
-            "Bid accepted successfully",
+            message: "Bid accepted successfully",
             contract
         });
 
