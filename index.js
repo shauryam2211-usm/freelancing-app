@@ -2,22 +2,29 @@ require("dotenv").config();
 
 const express = require("express");
 const connectDB = require("./src/config/db");
-const createUser = require("./src/test");
+
 const authRoutes = require("./src/routes/auth.routes");
-const projectRoutes =
-require("./src/routes/project.routes");
+const projectRoutes = require("./src/routes/project.routes");
 
 const app = express();
 
 app.use(express.json());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
+
 app.get("/", (req, res) => {
     res.send("Freelancing API Running");
 });
 
-connectDB();
-createUser();
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
-});
+async function startServer() {
+    await connectDB();
+
+    app.listen(process.env.PORT, () => {
+        console.log(
+            `Server running on port ${process.env.PORT}`
+        );
+    });
+}
+
+startServer();

@@ -15,8 +15,28 @@ const {
 } = require("../schemas/project.schema");
 
 const {
-    createProject
+    createProject,
+    getAllProjects,
+    getProjectById,
+    getMyProjects
 } = require("../controllers/project.controller");
+
+router.get(
+    "/",
+    getAllProjects
+);
+
+router.get(
+    "/mine",
+    auth,
+    isClient,
+    getMyProjects
+);
+
+router.get(
+    "/:id",
+    getProjectById
+);
 
 router.post(
     "/",
